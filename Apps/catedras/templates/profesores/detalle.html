@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1 class="text-center">Profesor: {{ docente.apellido|upper }}, {{ docente.nombre|capfirst }}</h1>
+
+	<div class="row">
+		<h3 class="text-center">Cursos del docente</h3>
+		<div class="col-md-10 col-md-offset-1">
+			{% for un_curso in cursos %}
+				<div class="col-md-4">
+					<a href="{% url 'catedras:curso_detalle' un_curso.pk un_curso.materia.slug %}" class="list-group-item list-group-item-action flex-column align-items-start">
+						<div class="d-flex w-100 justify-content-between">
+							<h3 class="mb-1">{{ un_curso.comisioncatedra.carrera }} - {{ un_curso.comisioncatedra.numero }}</h3>
+							<h5>{{ un_curso.materia.nombre }}</h5>
+						</div>
+						<p class="mb-1"></p>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock content %}

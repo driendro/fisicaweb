@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1 class="text-center">Comisiones</h1>
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3" >
+			<form>
+				<div class="col-md-5 form-group">
+					<label for="nivel"> Seleccione el nivel: </label>
+					<select class="form-control" id="nivel" name="nivel">
+						<option value="">Todos</option>
+						<option value="1">1° año</option>
+						<option value="2">2° año</option>
+						<option value="3">3° año</option>
+						<option value="4">4° año</option>
+						<option value="5">5° año</option>
+					</select>
+				</div>
+				<div class="col-md-5 form-group">
+					<label for="especialidad"> Seleccione la carrera: </label>
+					<select class="form-control" id="especialidad" name="especialidad">
+							<option value="">Todas</option>
+						{% for una_especialidad in especialidades %}
+							<option value="{{ una_especialidad.pk }}">{{ una_especialidad.nombre }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div>
+					<label for="Filtrar"> Filtrar: </label>
+					<button type="submit" class="btn center-block btn-success" data-toggle="tooltip" title="Filtrar"><span> Buscar </span></button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="row">
+		<hr size="30" width="80%" />
+	</div>
+
+	{% ifequal filtro "no" %}
+		<div class="row">
+			<h3 class="text-center">Comisiones de todos los años de todas las carreras</h3>
+			<div class="col-md-10 col-md-offset-1">
+				{% for una_comision in comisiones %}
+				<div class="col-md-4">
+					<a href="{% url 'catedras:comision_detalle' una_comision.pk %}"><li class="list-group-item">Comision {{ una_comision.numero }} de Ingenieria {{ una_comision.carrera }}</li></a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% else %}
+		<div class="row">
+			<h3 class="text-center">Comisiones de {{nivel}} de {{especialidad}} </h3>
+			<div class="col-md-10 col-md-offset-1">
+				{% for una_comision in comisiones %}
+				<div class="col-md-4">
+					<a href="{% url 'catedras:comision_detalle' una_comision.pk %}"><li class="list-group-item">Comision {{ una_comision.numero }} de Ingenieria {{ una_comision.carrera }}</li></a>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endifequal %}
+
+
+{% endblock content %}

@@ -1,0 +1,11 @@
+- Botones para salir de las comisiones de los laboratorios sin alumnos
+
+- Formulario "Nuevo alumno" palabra mal escrita
+
+- Seccion de administracion por separado, para el CRUD.(Alumno, Laboratorio, Horarios)
+
+- Antes de elejir el laboratorio, que elija la amteria
+
+- Paginacion de las comisiones en los laboratorios
+
+- Liberar la cracion de usuario.alumno y controlarla por legajo y DNI

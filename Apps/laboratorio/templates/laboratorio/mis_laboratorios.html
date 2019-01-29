@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+    <div class="container-fluid" >
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>
+                Laboratorio
+              </th>
+              <th>
+                Fecha
+              </th>
+              <th>
+                hora
+              </th>
+              <th>
+                Encargado
+              </th>
+              <th>
+                Estado
+              </th>
+              <th>
+                {# Para el boton para eliminar inscripcion #}
+              </th>
+            </tr>
+            </thead>
+
+              {% for mi_laboratorio in mis_laboratorios %}
+                  <tbody>
+                    <tr>
+                    <form method="POST" action="{% url 'laboratorio:cancelar_inscripcion' mi_laboratorio.pk %}">
+                    {% csrf_token %}
+                       <td>
+                            {{ mi_laboratorio.laboratorio.nombre }}
+                        </td>
+                        <td>
+                            {{ mi_laboratorio.comision.fecha }}
+                        </td>
+                        <td>
+                            {{ mi_laboratorio.comision.horario.hora_inicio }}
+                        </td>
+                        <td>
+                            {{ mi_laboratorio.comision.horario.encargado }}
+                        </td>
+                        <td>
+                          {% ifequal mi_laboratorio.realizado False %}
+                            <div>
+                              <h6><strong>Inscripto</strong></h6>
+                            </div>
+                          {% else %}
+                            <div>
+                              <h6><strong>Realizado</strong></h6>
+                            </div>
+                          {% endifequal %}
+                        </td>
+                          {% ifequal mi_laboratorio.realizado False %}
+                            <td align="center">
+                              <button type="submit" class="btn btn-danger" value="confirm">Cancelar inscripcion</button>
+                            </td>
+                          {% endifequal %}
+                      </form>
+                    </tr>
+                  </tbody>
+              {% endfor %}
+
+          </table>
+        </div>
+      </div>
+    </div>
+
+  {% endblock %}

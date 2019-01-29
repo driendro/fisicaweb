@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+    {% if mensaje %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">
+            Cancelacion de Comision
+          </h1>
+          <h1 class="text-center">
+            {{ mensaje }}
+          </h1>
+        </div>
+      </div>
+        <form method="POST">{% csrf_token %}
+          <button type="submit" class="btn btn-danger pull-right" name="confirmacion" value="si">Borrar comision</button>
+        </form>
+    </div>
+    {% endif %}
+
+    {% if not mensaje %}
+    <div class="alert alert-warning container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">
+            Cancelacion de Comision
+          </h1>
+          <div class="col-md-6 col-md-offset-3">
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="lead">
+          Laboratorio: {{ laboratorio.numero }} - {{ laboratorio.nombre }} || {{ comision.fecha|date:"l" }}: {{ comision.fecha }} || {{ comision.horario.hora_inicio }}hs
+        </p>
+        <p class="lead">
+          Se enviaran <strong>{{ anotados }}</strong> correos, con el siguiente mensaje:
+        </p>
+        <p class="alert alert-info">
+          {{ email_mensaje }}
+        </p>
+      </div>
+    </div>
+
+    <div class="container" >
+      <div class="row">
+        <div class="col-md-12">
+
+          <table class="table">
+            <thead>
+            <tr>
+              <th>
+                Legajo
+              </th>
+              <th>
+                Apellido
+              </th>
+              <th>
+                Nombre
+              </th>
+              <th>
+                E-Mail
+              </th>
+            </tr>
+            </thead>
+
+              <tbody>
+              {% for una_inscripcion in inscripciones %}
+                    <tr>
+                          <td>
+                            {{ una_inscripcion.alumno.legajo }}
+                          </td>
+                          <td>
+                            {{ una_inscripcion.alumno.user.last_name|upper }}
+                          </td>
+                          <td>
+                            {{ una_inscripcion.alumno.user.first_name|title }}
+                          </td>
+                          <td>
+                            {{ una_inscripcion.alumno.user.email }}
+                          </td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+
+          </table>
+
+          <div class="alert alert-danger container">
+            <h3>El Preseso tarda aproximadamente 1 minuto</h3>
+            <form method="POST">{% csrf_token %}
+              <button type="submit" class="btn btn-danger pull-right" name="confirmacion" value="si">Borrar comision</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endblock %}

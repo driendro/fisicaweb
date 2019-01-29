@@ -1,9 +1,8 @@
 VEnv/
-.pyc
+*.pyc
 migrations/
-.gitignore.old
 __pycache__/
 SistemaFotocopiadoraCet
 db.sqlite3
 local.py
-.png
+*.png

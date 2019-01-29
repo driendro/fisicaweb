@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% load user_tags %}
+
+{% block content %}
+
+  {% if request.user|has_group:"laboratorista"%}
+
+            <div class="col-md-12">
+              <h1 class="text-center">
+                Laboratorios de {{ materia.nombre }}
+              </h1>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>
+                        #
+                      </th>
+                      <th>
+                        Nombre
+                      </th>
+                      <th>
+                        Desde
+                      </th>
+                      <th>
+                        Hasta
+                      </th>
+                    </tr>
+                    </thead>
+
+                      {% for un_laboratorio in laboratorios %}
+                          <tbody>
+                            <tr>
+                             <td>
+                                {{ un_laboratorio.numero }}
+                              </td>
+                              <td>
+                                <a href=" {% url 'laboratorio:detalle_laboratorio' un_laboratorio.slug %}">{{ un_laboratorio.nombre }}</a>
+                              </td>
+                              <td>
+                                {{ un_laboratorio.fecha_inicio }}
+                              </td>
+                              <td>
+                                {{ un_laboratorio.fecha_fin }}
+                              </td>
+                            </tr>
+                          </tbody>
+                      {% endfor %}
+
+                  </table>
+                </div>
+              </div>
+            </div>
+
+  {% endif %}
+
+
+{# Template para el Alumno, se muestran los laboratorios de fisica 1 o fisica 2 #}
+
+  {% if request.user|has_group:"alumno"%}
+
+            <div class="col-md-12">
+              <h1 class="text-center">
+                Laboratorios de {{ materia.nombre }} - {{ anio }}
+              </h1>
+            </div>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table">
+                    <thead>
+                    <tr>
+                      <th>
+                        #
+                      </th>
+                      <th>
+                        Nombre
+                      </th>
+                      <th>
+                        Desde
+                      </th>
+                      <th>
+                        Hasta
+                      </th>
+                    </tr>
+                    </thead>
+
+                      {% for un_laboratorio in laboratorios %}
+                          <tbody>
+                            <tr>
+                             <td>
+                                {{ un_laboratorio.numero }}
+                              </td>
+                              <td>
+                                <a href=" {% url 'laboratorio:detalle_laboratorio' un_laboratorio.slug %}">{{ un_laboratorio.nombre }}</a>
+                              </td>
+                              <td>
+                                {{ un_laboratorio.fecha_inicio }}
+                              </td>
+                              <td>
+                                {{ un_laboratorio.fecha_fin }}
+                              </td>
+                            </tr>
+                          </tbody>
+                      {% endfor %}
+
+                  </table>
+                </div>
+              </div>
+            </div>
+    {% endif %}
+
+{% endblock %}

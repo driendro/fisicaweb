@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+        <div class="container">
+            <!-- Main component for a primary marketing message or call to action -->
+            <div>
+                <h1>{{ post.titulo }}</h1>
+                <h5>{{ post.timestamp }}</h5>
+                <h5 class="text-justify"> {{ post.cuerpo }}</h5>
+            </div>
+        </div> <!-- /container -->
+
+  {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+     {% for publicacion in publicaciones %}
+
+        <div class="container">
+            <!-- Main component for a primary marketing message or call to action -->
+            <div class="jumbotron">
+                <a href="/blog/{{publicacion.slug}}/"><h2>{{ publicacion.titulo }}</h2></a>
+                <h5>{{ publicacion.timestamp }}</h5>
+                <h5 class="text-justify"> {{ publicacion.cuerpo|truncatewords:"30" }}</h5>
+            </div>
+        </div> <!-- /container -->
+
+      {% endfor %}
+  {% endblock %}

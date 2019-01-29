@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+  {% block content %}
+
+    {% if mensaje %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">
+            {{ mensaje }}
+          </h1>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'laboratorio:detalle_laboratorio' laboratorio.slug %}" class="btn btn-primary active" title="Atras"> <span class="glyphicon glyphicon-arrow-left"></span> </a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    {% if not mensaje %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">
+            Listado de alumnos Inscriptos
+          </h1>
+        </div>
+      </div>
+      <div>
+        <h3>
+          <strong>Laboratorio:</strong> {{ laboratorio.numero }} - {{ laboratorio.nombre }}
+        </h3>
+        <h3>
+          <strong>Fecha:</strong> {{ comision.fecha|date:"l" }}: {{ comision.fecha }}
+        </h3>
+        <h3>
+          <strong>Horario:</strong> {{ comision.horario.hora_inicio }} hasta {{ comision.horario.hora_fin }}
+        </h3>
+        <h3>
+          <strong>Inscriptos:</strong> {{ comision.anotados }}
+        </h3>
+      </div>
+    </div>
+
+    <div class="container" >
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>
+                Legajo
+              </th>
+              <th>
+                Apellido
+              </th>
+              <th>
+                Nombre
+              </th>
+              <th class="text-center">
+                Asistencia
+              </th>
+            </tr>
+            </thead>
+
+            <form method="POST">{% csrf_token %}
+            <tbody>
+            	{% for una_inscripcion in inscripciones %}
+                	<tr>
+                      	<td>
+                            <h4>{{ una_inscripcion.alumno.legajo }}</h4>
+                        </td>
+                        <td>
+                            <h4>{{ una_inscripcion.alumno.user.last_name|upper }}</h4>
+                        </td>
+                        <td>
+                            <h4>{{ una_inscripcion.alumno.user.first_name|title }}</h4>
+                        </td>
+                        <td class="text-center">
+                          {% ifequal una_inscripcion.realizado False %}
+                            <label>
+                            	<h4><input type="checkbox" name="inscripcion" value="{{ una_inscripcion.id }}"></h4>
+                            </label>
+                          {% else %}
+                            <div>
+                              <h4><span class="label label-primary"><strong>Realizado</strong></span></h4>
+                            </div>
+                          {% endifequal %}
+                        </td>
+                	</tr>
+            	{% endfor %}
+            </tbody>
+          </table>
+            <p class="pull-right">
+                <button type="submit" class="btn btn-primary" value="confirm">Confirmar asistencia</button>
+            </p>
+            </form>
+            <form method="POST" action="{% url 'laboratorio:eliminar-comision' laboratorio.slug comision.id %}"> {% csrf_token %}
+              <p class="pull-left">
+                <button type="submit" class="btn center-block btn-danger">Eliminar comision</button>
+              </p>
+            </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endblock %}

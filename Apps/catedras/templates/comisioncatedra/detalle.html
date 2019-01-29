@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1 class="text-center"> Comision {{ comision.numero }} de Ingenieria {{ comision.carrera }}</h1>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			{% for un_curso in cursos %}
+				<div class="col-md-4">
+					<a href="{% url 'catedras:curso_detalle' comision.pk un_curso.materia.slug %}"><li class="list-group-item">{{ un_curso.materia }}</li></a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock content %}

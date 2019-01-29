@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+
+                  {% for una_publicacion in publicaciones %}
+                  <div class="alert alert-info">
+                    <p><a href="/blog/{{una_publicacion.slug}}/"><h3>{{ una_publicacion.titulo }}</h3></a> <h5>({{ una_publicacion.timestamp }} - {{ una_publicacion.autor }})</h5></p>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+
+{% endblock %}

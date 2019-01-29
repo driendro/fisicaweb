@@ -1,0 +1,325 @@
+{% extends 'base.html' %}
+
+{% load user_tags %}
+
+  {% block content %}
+
+  {% if request.user|has_group:"laboratorista"%}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">
+            {{ laboratorio.numero }} - {{ laboratorio.nombre }}
+          </h1>
+          <h4 class="text-center">
+          {% if archivo %}
+            <a class="btn btn-info" href="{{ laboratorio.archivo.url }}" download="calambre.jpeg">Guia del Laboratorio</a>
+          {% endif %}
+          </h4>
+        </div>
+      </div>
+
+        <form id="filtro_busqueda_turno" class="form-inline text-center" method="GET" action="">
+            <select class="form-control" name="horario">
+              <option value="all">Todos</option>
+              {% if lunes %}
+                <optgroup label="Lunes">
+                  {% for un_lunes in lunes %}
+                    <option value="{{ un_lunes.turno }}">Lunes {{ un_lunes.hora_inicio }} - {{ un_lunes.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if martes %}
+                <optgroup label="Martes">
+                  {% for un_martes in martes %}
+                    <option value="{{ un_martes.turno }}">Martes {{ un_martes.hora_inicio }} - {{ un_martes.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if miercoles %}
+                <optgroup label="Miercoles">
+                  {% for un_miercoles in miercoles %}
+                    <option value="{{ un_miercoles.turno }}">Miercoles {{ un_miercoles.hora_inicio }} - {{ un_miercoles.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if jueves %}
+                <optgroup label="Jueves">
+                  {% for un_jueves in jueves %}
+                    <option value="{{ un_jueves.turno }}">Jueves {{ un_jueves.hora_inicio }} - {{ un_jueves.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if viernes %}
+                <optgroup label="Viernes">
+                  {% for un_viernes in viernes %}
+                    <option value="{{ un_viernes.turno }}">Viernes {{ un_viernes.hora_inicio }} - {{ un_viernes.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if sabado %}
+                <optgroup label="Sabado">
+                  {% for un_sabado in sabado %}
+                    <option value="{{ un_sabado.turno }}">Sabado {{ un_sabado.hora_inicio }} - {{ un_sabado.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if domingo %}
+                <optgroup label="Domingo">
+                  {% for un_domingo in domingo %}
+                    <option value="{{ un_domingo.turno }}">Sabado {{ un_domingo.hora_inicio }} - {{ un_domingo.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+            </select>
+            <button type="submit" class="btn btn-success" href="#filtro_busqueda_turno" data-toggle="tooltip" title="Filtrar"><span class="glyphicon glyphicon-filter"></span> </button>
+        </form>
+
+    </div>
+    <div class="container" >
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>
+                Dia
+              </th>
+              <th>
+                Fecha
+              </th>
+              <th class="text-center">
+                Horario
+              </th>
+              <th class="text-center">
+                Cupo
+              </th>
+              <th class="text-center">
+                Inscriptos
+              </th>
+              <th>
+                
+              </th>
+            </tr>
+            </thead>
+
+                <tbody>
+                  {% for una_comision in comisiones %}
+                    <tr>
+                        <td>
+                          {{ una_comision.fecha|date:"l" }}
+                        </td>
+                        <td>
+                          {{ una_comision.fecha }}
+                        </td>
+                        <td class="text-center">
+                          De <strong>{{ una_comision.horario.hora_inicio }}</strong> hasta <strong>{{ una_comision.horario.hora_fin }}</strong>
+                        </td>
+                        <td class="text-center">
+                          {{ laboratorio.cupo }}
+                        </td>
+                        <td class="text-center">
+                          {{ una_comision.anotados }}
+                        </td>
+                        <td class="btn-group center-block text-center">
+                          <form method="POST" action="{% url 'laboratorio:detalle_comision' laboratorio.slug una_comision.id %}"> {% csrf_token %}
+                            <button type="submit" class="btn btn-info" data-toggle="tooltip" title="Editar"> <span class="glyphicon glyphicon-eye-open"></span> </button>
+                          </form>
+                        </td>
+                        <td>
+                          <form method="POST" action="{% url 'laboratorio:eliminar-comision' laboratorio.slug una_comision.id %}"> {% csrf_token %}
+                            <button type="submit" class="btn btn-danger" data-toggle="tooltip" title="Borrar"> <span class="glyphicon glyphicon-trash"></span> </button>
+                          </form>
+                        </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+
+  {% if request.user|has_group:"alumno"%}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="text-center">
+            {{ laboratorio.numero }} - {{ laboratorio.nombre }}
+          </h1>
+          <h3 class="text-center">
+            {{ laboratorio.tema }}
+          </h3>
+          <h4 class="text-center">
+            {# <a class="btn btn-info" href="{{ laboratorio.archivo.url }}" download>Guia del Laboratorio</a> #}
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h3 class="text-center">
+            Fecha de Inicio: {{ laboratorio.fecha_inicio }}
+          </h3>
+        </div>
+        <div class="col-md-6">
+          <h3 class="text-center">
+            Fecha de Cierre: {{ laboratorio.fecha_fin }}
+          </h3>
+        </div>
+      </div>
+      <h1> </h1>
+      <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+
+          <a class="btn btn-primary btn-block" href="#filtro_busqueda_turno" role="button">
+              Buscar fechas
+          </a>
+        </div>
+      </div>
+      <h1> </h1>
+      <div class="row">
+        <div class="alert alert-info" class="col-md-12">
+          <p>
+            <strong>Objetivos:</strong>
+          </p>
+          <p class="text-justify">
+            {{ laboratorio.objetivos }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="alert alert-info" class="col-md-12">
+          <p>
+            <strong>Descripcion:</strong>
+          </p>
+          <p class="text-justify">
+            {{ laboratorio.descripcion }}
+          </p>
+        </div>
+      </div>
+       <div class="row">
+        <h1> </h1>
+
+        <form id="filtro_busqueda_turno" class="form-inline text-center" method="GET" action="">
+            <select class="form-control" name="horario">
+              <option value="all">Todos</option>
+              {% if lunes %}
+                <optgroup label="Lunes">
+                  {% for un_lunes in lunes %}
+                    <option value="{{ un_lunes.turno }}">Lunes {{ un_lunes.hora_inicio }} - {{ un_lunes.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if martes %}
+                <optgroup label="Martes">
+                  {% for un_martes in martes %}
+                    <option value="{{ un_martes.turno }}">Martes {{ un_martes.hora_inicio }} - {{ un_martes.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if miercoles %}
+                <optgroup label="Miercoles">
+                  {% for un_miercoles in miercoles %}
+                    <option value="{{ un_miercoles.turno }}">Miercoles {{ un_miercoles.hora_inicio }} - {{ un_miercoles.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if jueves %}
+                <optgroup label="Jueves">
+                  {% for un_jueves in jueves %}
+                    <option value="{{ un_jueves.turno }}">Jueves {{ un_jueves.hora_inicio }} - {{ un_jueves.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if viernes %}
+                <optgroup label="Viernes">
+                  {% for un_viernes in viernes %}
+                    <option value="{{ un_viernes.turno }}">Viernes {{ un_viernes.hora_inicio }} - {{ un_viernes.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if sabado %}
+                <optgroup label="Sabado">
+                  {% for un_sabado in sabado %}
+                    <option value="{{ un_sabado.turno }}">Sabado {{ un_sabado.hora_inicio }} - {{ un_sabado.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+              {% if domingo %}
+                <optgroup label="Domingo">
+                  {% for un_domingo in domingo %}
+                    <option value="{{ un_domingo.turno }}">Sabado {{ un_domingo.hora_inicio }} - {{ un_domingo.hora_fin }}</option>
+                  {% endfor %}
+                </optgroup>
+              {% endif %}
+            </select>
+            <button type="submit" class="btn btn-default" href="#filtro_busqueda_turno">
+              Filtrar
+            </button>
+        </form>
+
+    </div>
+    <div class="container" >
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>
+                Dia
+              </th>
+              <th>
+                Fecha
+              </th>
+              <th class="text-center">
+                Horario
+              </th>
+              <th class="text-center">
+                Cupo
+              </th>
+              <th class="text-center">
+                Inscriptos
+              </th>
+              <th>
+                <!-- Boton para inscribirse -->
+              </th>
+            </tr>
+            </thead>
+
+                <tbody>
+                  {% for una_comision in comisiones %}
+                    <tr>
+                      <form method="POST" action="{% url 'laboratorio:inscripcion_laboratorio' laboratorio.pk una_comision.pk %}">{% csrf_token %}
+                        <td>
+                          {{ una_comision.fecha|date:"l" }}
+                        </td>
+                        <td>
+                          {{ una_comision.fecha }}
+                        </td>
+                        <td class="text-center">
+                          De <strong>{{ una_comision.horario.hora_inicio }}</strong> hasta <strong>{{ una_comision.horario.hora_fin }}</strong>
+                        </td>
+                        <td class="text-center">
+                          {{ laboratorio.cupo }}
+                        </td>
+                        <td class="text-center">
+                          {{ una_comision.anotados }}
+                        </td>
+                        <td align="center">
+                          <button type="submit" class="btn btn-success">Inscribirse</button>
+                        </td>
+                      </form>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  {% endblock %}

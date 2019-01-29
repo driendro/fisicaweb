@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-center">
+				Gestionar Alumnos
+			</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-10 col-md-offset-1 table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							Apellido
+						</th>
+						<th>
+							Nombre
+						</th>
+						<th>
+							DNI
+						</th>
+						<th>
+							Legajo
+						</th>
+					</tr>
+					<tr>
+						<form>
+							<th>
+								<input type="text" class="form-control" name="apellido">
+							</th>
+							<th>
+								<input type="text" class="form-control" name="nombre">
+							</th>
+							<th>
+								<input type="text" class="form-control" name="dni">
+							</th>
+							<th>
+								<input type="text" class="form-control" name="legajo">
+							</th>
+							<th>
+								<button type="submit" class="btn center-block btn-success" data-toggle="tooltip" title="Filtrar"><span class="glyphicon glyphicon-filter"></span> </button>
+							</th>
+						</form>
+							<th>
+								<a href="{% url 'usuario:crear_alumno' %}" type="submit" class="btn center-block btn-success" data-toggle="tooltip" title="Nuevo Alumno"><span class="glyphicon glyphicon-plus"></span> </a>
+							</th>
+					</tr>
+				</thead>
+	
+				<tbody>
+					{% for un_alumno in alumnos %}
+					<tr>
+						<td>{{ un_alumno.user.last_name|upper }}</td>
+						<td>{{ un_alumno.user.first_name }}</td>
+						<td>{{ un_alumno.dni }}</td>
+						<td>{{ un_alumno.legajo }}</td>
+						<td class="center-block text-center">
+							<button class="btn-info" data-toggle="tooltip" title="Ver"><span class="glyphicon glyphicon-eye-open"></span></button>
+							<button class="btn-primary" data-toggle="tooltip" title="Editar"><span class="glyphicon glyphicon-edit"></span></button>
+							<button class="btn-danger" data-toggle="tooltip" title="Borrar"><span class="glyphicon glyphicon-trash"></span></button>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+
+			</table>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

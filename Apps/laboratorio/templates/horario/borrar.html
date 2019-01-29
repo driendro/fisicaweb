@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+
+	<div class="col-md-12">
+		<h1 class="text-center">Borrar comisiones de un horario</h1>
+		<div class="col-md-4"></div>
+		<div class="center-block col-md-4">
+			<form id="formulario" method="POST">
+				{% csrf_token %}
+				{% bootstrap_form formulario %}
+				{% buttons %}
+					<button class="btn-danger" data-toggle="tooltip" title="Borrar"><span class="glyphicon glyphicon-trash"></span></button>
+				{% endbuttons %}
+			</form>
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+	<div class="col-md-12 text-center alert alert-success">
+		<h4>Tenga en cuenta que esta funcion puede tardar, ya que se envia un email a cada alumno inscripto, en las comisiones de este horario, entre las fechas difinidas. </h4>
+		<h4> Sepa esperar, Gracias!</h4>
+	</div>
+
+
+{% endblock %}

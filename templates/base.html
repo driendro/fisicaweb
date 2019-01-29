@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+{% load pwa %}
+
+<html lang="es">
+
+    <head>
+        {% include 'base-head.html' %}
+        {% progressive_web_app_meta %}
+    </head>
+
+
+
+    <body>
+
+	<!-- Pagina Realizada por RONOCNI, Jorge -->
+    <!-- Agradecimiento especial al Sr. PAGANI, Walter; quien me recomendo realizar el sistema con este lenguaje, que soporto, no sin quejarce, mucho, mis constantes consultas y mi burda manera de programar, pero me ayudo de forma desinteresada. Gracias!!! -->
+
+        {% include 'base-mainmenu.html' %}
+
+                    {% block content %}{% endblock %}
+
+        {% include 'base-javascript.html' %}
+
+    </body>
+
+
+</html>

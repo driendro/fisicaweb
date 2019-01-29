@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">
+        Gestionar laboratorios de nombre_usuario
+      </h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1 table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Materia
+            </th>
+            <th>
+              
+            </th>
+            <th>
+              
+            </th>
+          </tr>
+        </thead>
+  
+        <tbody>
+          {% for una_materia in materias %}
+          <tr>
+            <td><h4>{{ una_materia.nombre|upper }}</h4></td>
+            <td></td>
+            <td class="center-block text-center">
+              <a href="{% url 'laboratorio:crear_laboratorio' %}" class="btn btn-success" data-toggle="tooltip" title="Nuevo laboratorio"><span class="glyphicon glyphicon-plus"></span></a>
+              <a href="{% url 'laboratorio:crear_horario' %}" class="btn btn-success" data-toggle="tooltip" title="Nuevo horario"><span class="glyphicon glyphicon-time"></span></a>
+              <a href="{% url 'laboratorio:eliminar_horario' %}" class="btn btn-danger" data-toggle="tooltip" title="Borrar horario"><span class="glyphicon glyphicon-time"></span></a>
+              <a href="{% url 'laboratorio:laboratorios' una_materia.slug %}" class="btn btn-info" data-toggle="tooltip" title="Ver"><span class="glyphicon glyphicon-eye-open"></span></a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+  {% endblock %}

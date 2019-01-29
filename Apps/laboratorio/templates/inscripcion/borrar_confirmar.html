@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="es">
+
+    <head>
+        {% include 'base-head.html' %}
+    </head>
+
+
+
+    <body>
+			<div class="col-md-6 col-md-offset-3">
+				<div class="row">
+					<div class="alert alert-warning">
+						<p><strong>{{ user }} </strong>:</p>
+						<p> Esta seguro que desea dar de baja su inscripcion al día <strong>{{ fecha }}</strong> al laboratorio <strong>{{ laboratorio }}</strong></p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-5">
+					</div>
+					<form method="POST">{% csrf_token %}
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-danger" name="opcion" value="si">Cancelar inscripcion</button>
+					</div>
+					</form>
+					<div class="col-md-5">
+					</div>
+				</div>
+			</div>
+
+        {% include 'base-javascript.html' %}
+
+    </body>
+
+
+</html>
